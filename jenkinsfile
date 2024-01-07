@@ -6,7 +6,7 @@ pipeline {
             steps {
                echo "Executing your ${BUILD_NUMBER}"
                sh './hello-world.sh'
-               sh 'python dummy.py'
+               sh 'python3 dummy.py'
             }
         }
     }
