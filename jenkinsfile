@@ -8,5 +8,11 @@ pipeline {
                sh './hello-world.sh'
             }
         }
+       stage ("Deploy Pod"){
+             steps {
+                    sh 'kubectl -f pod.yaml'
+                    sh 'kubectl get pods'
+             }
+        }
     }
 }
