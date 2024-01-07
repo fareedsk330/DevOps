@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    environment {
+      K8S_CREDS = 'kubernets-creds-faree'
+    }
     stages {
         stage('Hello') {
             steps {
@@ -16,8 +18,12 @@ pipeline {
        }
        stage ("Deploy Pod"){
              steps {
+               script {
+                   withCredentials([secretText(credentialsId: K8S_CREDS)]){
                     sh './kubectl apply -f pod.yaml'
                     sh './kubectl get pods'
+                 }
+               }
              }
         }
     }
