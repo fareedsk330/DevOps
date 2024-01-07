@@ -8,10 +8,16 @@ pipeline {
                sh './hello-world.sh'
             }
         }
+       stage ("Install Kubectl"){
+         steps{
+                sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
+                sh 'chmod u+x ./kubectl'  
+               }
+       }
        stage ("Deploy Pod"){
              steps {
-                    sh 'kubectl -f pod.yaml'
-                    sh 'kubectl get pods'
+                    sh './kubectl -f pod.yaml'
+                    sh './kubectl get pods'
              }
         }
     }
