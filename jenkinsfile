@@ -1,7 +1,8 @@
 pipeline {
     agent any
     environment {
-      K8S_CREDS = 'kubernets-creds-faree'
+       K8s_NS = 'default'
+       K8S_CREDS = 'kubernets-creds-faree'
     }
     stages {
         stage('Hello') {
@@ -16,6 +17,16 @@ pipeline {
                 sh 'chmod u+x ./kubectl'  
                }
        }
+       stage ("fetching Kubernets token from jenkins creds") {
+            script{
+                  def kubeSAToken = ${K8S_CREDS}
+             sh """
+                 kubectl config set-credentials sa-user --token=${kubeSAToken}
+                 kubectl config set-context sa-context --cluster=default-cluster --user=sa-user --namespace=${K8s_NS}
+                 kubectl config use-context sa-context
+               """
+             }
+         }
        stage ("Deploy Pod"){
              steps {
                script {
