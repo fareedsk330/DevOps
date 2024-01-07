@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    options {
+     timestamps()
+    }
     environment {
        K8s_NS = 'default'
        K8S_CREDS = 'kubernets-creds-faree'
@@ -7,7 +10,7 @@ pipeline {
     stages {
         stage('Hello') {
             steps {
-               echo "Executing your ${BUILD_NUMBER}"
+               echo "Your Executing ${BUILD_NUMBER}th build"
                sh './hello-world.sh'
             }
         }
@@ -15,6 +18,8 @@ pipeline {
          steps{
                 sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
                 sh 'chmod u+x ./kubectl'  
+                sh "echo 'Your Kubectl version:'"
+                sh './kubectl version --client'
                }
        }
        stage ("fetching Kubernets token from jenkins creds") {
