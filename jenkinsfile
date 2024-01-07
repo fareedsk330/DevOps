@@ -18,22 +18,22 @@ pipeline {
                }
        }
        stage ("fetching Kubernets token from jenkins creds") {
+         steps{
             script{
                   def kubeSAToken = ${K8S_CREDS}
-             sh """
+               sh """
                  kubectl config set-credentials sa-user --token=${kubeSAToken}
                  kubectl config set-context sa-context --cluster=default-cluster --user=sa-user --namespace=${K8s_NS}
                  kubectl config use-context sa-context
                """
              }
+           }
          }
        stage ("Deploy Pod"){
              steps {
                script {
-                   withCredentials([secretText(credentialsId: K8S_CREDS)]){
                     sh './kubectl apply -f pod.yaml'
                     sh './kubectl get pods'
-                 }
                }
              }
         }
