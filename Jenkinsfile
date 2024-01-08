@@ -4,7 +4,7 @@ pipeline {
      timestamps()
     }
     environment {
-       DOCKER_CREDS = credentials(docker-cred)
+       DOCKER_CREDS = credentials('docker-cred')
        DOCKER_IMAGE = 'my-image'
        DOCKER_IMAGE_TAG = 'dummy'
     }
