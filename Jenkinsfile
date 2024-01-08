@@ -26,7 +26,12 @@ pipeline {
              steps {
                script {
                     withCredentials([usernamePassword(credentialId: DOCKER_CREDS, usernameVariable: DOCKER_USERNAME, passwordVariable: DOCKER_PASSWORD)]){
-                     docker.withRegistry('https://index.docker.io/v1/', 'DOCKER_USERNAME', 'DOCKER_PASSWORD'
-                     docker.build("${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}")
+                     docker.withRegistry('https://index.docker.io/v1/', 'DOCKER_USERNAME', 'DOCKER_PASSWORD'){
+                     docker.image("${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}")
                     }
+                  }
+                }
              }
+      }
+   }
+}
